@@ -1,0 +1,65 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>LISTAR ASISTENCIA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="logo-container">
+    <img #logo src="assets/icon/logoduocuc.png" alt="DuocUC" class="logo" />
+    <h1>Asistencia en línea</h1>
+  </div>
+
+  <div>
+    <ng-container *ngFor="let item of asistencia">
+      <ion-grid [fixed]="true">
+        <ion-row>
+          <ion-col>
+            <div>
+              <h3>Clase: {{ item.clase.nombre }} ({{ item.clase.codigo }}) - {{
+              item.dia | date: 'dd/MM/yyyy' }}</h3>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div>
+              <b>Docente: {{ item.docente.nombre }} ({{ item.docente.mail }})</b>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div>Estudiantes</div>
+          </ion-col>
+        </ion-row>
+        <ng-container *ngFor="let estudiante of item.estudiantes">
+          <ion-row>
+            <ion-col>
+              <div>{{ estudiante.estudiante.nombre }} (scan: {{ estudiante.fechaIngreso | date: 'dd/MM/yy HH:mm' }})</div>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+      </ion-grid>
+    </ng-container>
+
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">
+            <ion-button (click)="loginDocente()" aria-label="Favorite"
+              >BACK<ion-icon name="arrow-back-circle"></ion-icon
+            ></ion-button>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div class="ion-text-center">
+            <ion-button (click)="loginDocente()" aria-label="Favorite"
+              >HOME<ion-icon name="home"></ion-icon
+            ></ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

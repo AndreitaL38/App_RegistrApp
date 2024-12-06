@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registr APP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+      <div class="logo-container">
+        <img #logoDuoc
+          src="assets/icon/logoduocuc.png"
+          alt="DuocUC"
+          class="logo"
+        />
+        <br />
+        <img #logoPage
+          src="assets/icon/logo-qr.png"
+          alt="Registr APP"
+          class="logo"
+        />
+      </div>
+  <div class="form-login">
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <ion-button aria-label="Favorite" (click)="loginDocente()">DOCENTE <ion-icon style="margin-left: 10px;" name="book-outline"></ion-icon></ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <ion-button aria-label="Favorite" (click)="loginEstudiante()">ESTUDIANTE <ion-icon style="margin-left: 10px;" name="laptop-outline"></ion-icon></ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
+
+</ion-content>

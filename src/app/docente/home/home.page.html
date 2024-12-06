@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>HOME DOCENTE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+      <div class="logo-container">
+        <img
+          #logo
+          src="assets/icon/logoduocuc.png"
+          alt="DuocUC"
+          class="logo"
+        />
+        <h1>BIENVENIDO {{ par_username }}!!</h1>
+      </div>
+
+  <div>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">
+          <ion-button (click)="listarAsistencia()" aria-label="Favorite">LISTAR<ion-icon name="qr-code-outline"></ion-icon></ion-button>
+        </div>
+        </ion-col>
+        <ion-col>
+          <div class="ion-text-center">
+          <ion-button (click)="generarQR()" aria-label="Favorite">ASISTENCIA<ion-icon name="qr-code-outline"></ion-icon></ion-button>
+        </div>
+        </ion-col>
+        <ion-col>
+          <div class="ion-text-center">
+          <ion-button (click)="salir()" aria-label="Favorite">SALIR<ion-icon name="log-out-outline"></ion-icon></ion-button>
+        </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+</ion-content>

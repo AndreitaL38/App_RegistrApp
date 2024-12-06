@@ -1,0 +1,82 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+
+
+.logo-container{
+    text-align: center;
+    padding: 1px;
+    max-width: 100%;
+    max-height: 70%;
+}
+
+.logo{
+    max-width: 50%;
+    height: auto;
+}
+
+.text{
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+/* Set the color on all ion-button elements */
+ion-button, ion-select {
+  --background: #e9e511;
+  --background-hover: #e9e511ea;
+  --background-activated: #e9e511ea;
+  --background-focused: #e9e511ea;
+
+  --color: #0004ffea;
+
+  --border-color: #0004ffea;
+  --border-style: solid;
+  --border-width: 2px;
+
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+
+  --ripple-color: deeppink;
+
+  --padding: 10px;
+}
+
+.form-login {
+  background-color: #e9e511;
+  border-radius: 10;
+  margin: 10px;
+}

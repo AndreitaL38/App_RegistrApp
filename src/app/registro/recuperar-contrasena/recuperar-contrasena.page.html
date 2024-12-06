@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>RECUPERAR CONTRASEÑA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+      <div class="logo-container">
+        <img #logoDuoc
+          src="assets/icon/logoduocuc.png"
+          alt="DuocUC"
+          class="logo"
+        />
+        <h1 #titlePage>Recuperar Contrseña</h1>
+        <img #logoPage
+          src="assets/icon/logo-qr.png"
+          alt="Registr APP"
+          class="logo"
+        />
+      </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <div class="form-login">
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>
+            <ion-input formControlName="username" labelPlacement="stacked" placeholder="Email" errorText="Invalid email">
+              <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon>
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+        <ion-button type="submit" aria-label="Favorite">RECUPERAR <ion-icon name="person" style="margin-left: 10px;"></ion-icon></ion-button>
+      </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+
+      </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+</form>
+
+
+</ion-content>
