@@ -5,50 +5,48 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-      <div class="logo-container">
-        <img
-          #logo
-          src="assets/icon/logoduocuc.png"
-          alt="DuocUC"
-          class="logo"
-        />
-        <h1>Leer QR</h1>
-        <img
-          #logo
-          src="assets/icon/leer-qr.png"
-          alt="Registr APP"
-          class="logo"
-        />
-        <div id="reader"></div>
-        <div id="scanText">{{scannedText}}</div>
+  <div class="logo-container">
+    <!-- Logo superior -->
+    <img src="assets/icon/logoduocuc.png" alt="DuocUC" class="logo" />
+    <h1>Leer QR</h1>
+    <img src="assets/icon/leer-qr.png" alt="Registr APP" class="logo" />
+  </div>
 
-      </div>
+  <!-- Contenedor para el lector QR -->
+  <div id="reader" class="qr-reader"></div>
 
-  <div>
-    <ion-grid [fixed]="true">
+  <!-- Mostrar texto escaneado -->
+  <div id="scanText" class="ion-text-center">
+    <p *ngIf="scannedText">
+      <strong>Código Escaneado:</strong> {{ scannedText }}
+    </p>
+  </div>
+
+  <!-- Botones -->
+  <div class="button-container">
+    <ion-grid>
       <ion-row>
-        <ion-col>
-          <div class="ion-text-center">
-          <ion-button (click)="ingresarCamara()" aria-label="Favorite">INGRESAR A CÁMARA<ion-icon name="camera"></ion-icon></ion-button>
-        </div>
+        <ion-col size="12" class="ion-text-center">
+          <ion-button expand="block" (click)="ingresarCamara()">
+            INGRESAR A CÁMARA
+            <ion-icon slot="end" name="camera"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
-    </ion-grid>
-    <ion-grid [fixed]="true">
       <ion-row>
-        <ion-col>
-          <div class="ion-text-center">
-          <ion-button (click)="back()" aria-label="Favorite">BACK<ion-icon name="arrow-back-circle"></ion-icon></ion-button>
-        </div>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button expand="block" color="medium" (click)="back()">
+            BACK
+            <ion-icon slot="end" name="arrow-back-circle"></ion-icon>
+          </ion-button>
         </ion-col>
-        <ion-col>
-          <div class="ion-text-center">
-          <ion-button (click)="loginEstudiante()" aria-label="Favorite">HOME<ion-icon name="home"></ion-icon></ion-button>
-        </div>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button expand="block" color="primary" (click)="loginEstudiante()">
+            HOME
+            <ion-icon slot="end" name="home"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
-
-
 </ion-content>

@@ -1,0 +1,88 @@
+/* Estilo del contenedor principal */
+ion-content {
+    --background: #f4f5f8; /* Fondo gris claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Contenedor del formulario */
+  form {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  /* Estilo para los campos de entrada */
+  ion-item {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Etiquetas de entrada */
+  ion-label {
+    font-weight: 600;
+    color: #555;
+  }
+  
+  /* Campos de entrada */
+  ion-input {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Botón */
+  ion-button {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    --border-radius: 8px;
+  }
+  
+  /* Mensaje de prueba */
+  div p {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  /* Media Queries para Responsividad */
+  @media (max-width: 768px) {
+    form {
+      width: 95%; /* Más ancho en pantallas pequeñas */
+      padding: 15px;
+    }
+  
+    ion-item {
+      margin-bottom: 12px;
+    }
+  
+    ion-button {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    ion-label {
+      font-size: 14px;
+    }
+  
+    ion-input {
+      font-size: 14px;
+    }
+  
+    ion-button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+  

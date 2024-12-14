@@ -77,7 +77,8 @@ export class LoginPage {
     this.router.navigate(['/estudiante']);
   }
 
-  registro() {
+  //Metodo envio al registro de usuario
+  registrarse(){
     this.router.navigate(['/registro']);
   }
 

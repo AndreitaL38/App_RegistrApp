@@ -46,5 +46,18 @@ export class StorageService {
     });
   }
 
+  public async saveUser(user: any) {
+    const users = (await this.get('users')) || []; // Obtener usuarios previos o inicializar como arreglo vacío
+    users.push(user); // Agregar el nuevo usuario al arreglo
+    await this.set('users', users); // Guardar el arreglo actualizado
+    console.log('Usuario guardado:', user);
+  }
+  
+  public async getUserByEmailAndPassword(email: string, password: string): Promise<any> {
+    const users = (await this.get('users')) || []; // Obtener todos los usuarios registrados
+    return users.find((user: any) => user.email === email && user.password === password);
+  }
+  
+
 
 }

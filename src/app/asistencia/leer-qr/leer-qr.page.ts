@@ -50,59 +50,75 @@ export class LeerQrPage implements OnInit {
   }
 
   ingresarCamara() {
-
-    Html5Qrcode.getCameras().then(devices => {
-      if (devices && devices.length) {
-        var cameraId = devices[0].id;
-        this.escanear(cameraId);
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }
-
-  escanear(cameraId: string) {
-
-    const html5QrCode = new Html5Qrcode(/* element id */ "reader", false);
-    html5QrCode.start(
-      cameraId,
-      {
-        fps: 10,    // Optional, frame per seconds for qr code scanning
-        qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
-      },
-      async (decodedText, decodedResult) => {
-
-
-        this.storageService.get('asistencia').then(async (asistencia: Asistencia[]) => {
-
-          var x = asistencia.findIndex(o => (o.clase.codigo == decodedText));
-          console.log(x);
-
-          if (x >= 0) {
-            var estudiantes = await this.storageService.get('estudiantes');
-            var est: Estudiante = estudiantes.find((obj: { mail: String; }) => (obj.mail == this.userService.getMail()));
-
-            asistencia[x].estudiantes.push({ estudiante: est, fechaIngreso: new Date() })
-            this.storageService.set('asistencia', asistencia);
-          }
-        });
-
-        this.registroExitoso();
-
-        this.scannedText = decodedText;
-
-        html5QrCode.stop().then((ignore) => {
-          console.log("QR Code scanning is stopped.");
-        }).catch((err) => {
-          console.error(err);
-        });
-      },
-      (errorMessage) => {
-        // parse error, ignore it.
+    Html5Qrcode.getCameras()
+      .then(devices => {
+        if (devices && devices.length > 0) {
+          const cameraId = devices[0].id; // Toma la primera cámara disponible
+          this.escanear(cameraId);
+        } else {
+          alert('No se encontraron cámaras disponibles.');
+        }
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
+        console.error('Error al obtener cámaras:', err);
+        alert('No se pudo acceder a la cámara. Verifica los permisos.');
       });
   }
+  
+
+  escanear(cameraId: string) {
+    const html5QrCode = new Html5Qrcode('reader'); // El contenedor debe existir
+  
+    html5QrCode
+      .start(
+        cameraId,
+        {
+          fps: 10, // Velocidad de escaneo (frames per second)
+          qrbox: { width: 250, height: 250 } // Cuadro delimitador del escaneo
+        },
+        (decodedText, decodedResult) => {
+          console.log('Código QR detectado:', decodedText);
+          this.scannedText = decodedText;
+  
+          // Parar la cámara después de escanear
+          html5QrCode.stop()
+            .then(() => {
+              console.log('Escaneo detenido.');
+              this.procesarQR(decodedText);
+            })
+            .catch(err => console.error('Error al detener el escaneo:', err));
+        },
+        (errorMessage) => {
+          console.warn('Error al escanear QR:', errorMessage);
+        }
+      )
+      .catch(err => {
+        console.error('Error al iniciar la cámara:', err);
+        alert('No se pudo iniciar la cámara. Verifica los permisos.');
+      });
+  }
+
+  procesarQR(decodedText: string) {
+    this.storageService.get('asistencia').then(async (asistencia: Asistencia[]) => {
+      const index = asistencia.findIndex(o => o.clase.codigo === decodedText);
+  
+      if (index >= 0) {
+        const estudiantes = await this.storageService.get('estudiantes');
+        const est: Estudiante = estudiantes.find((obj: { mail: string }) => obj.mail === this.userService.getMail());
+  
+        if (est) {
+          asistencia[index].estudiantes.push({ estudiante: est, fechaIngreso: new Date() });
+          await this.storageService.set('asistencia', asistencia);
+          this.registroExitoso();
+        } else {
+          alert('Estudiante no encontrado en el registro.');
+        }
+      } else {
+        alert('El código QR no corresponde a ninguna clase.');
+      }
+    });
+  }
+  
+  
 
 }

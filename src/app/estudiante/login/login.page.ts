@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { StorageService } from 'src/app/api/storage.service'; // Importar StorageService
 
 import { Router } from '@angular/router';
 import { Animation, AnimationController, IonicModule } from '@ionic/angular';
@@ -30,28 +31,25 @@ export class LoginPage {
   private titlePageAnimation!: Animation;
   private logoPageAnimation!: Animation;
 
-  constructor(private fb: FormBuilder, private router: Router, private animationCtrl: AnimationController) {
+  constructor(private fb: FormBuilder, private router: Router, private animationCtrl: AnimationController,private storageService: StorageService) {
     addIcons({ person, lockClosed });
 
     this.loginForm = this.fb.group({
-
       username: [
         '',
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(8),
-          Validators.pattern('^[a-zA-Z0-9]*$')
+          Validators.email, // Validador para correos electrónicos válidos
         ]
       ],
-
+    
       password: [
         '',
         [
           Validators.required,
           Validators.minLength(4),
-          Validators.maxLength(4),
-          Validators.pattern('^[0-9]*$')
+          Validators.maxLength(8), // Ajusta la longitud si es necesario
+          Validators.pattern('^[0-9]*$') // Contraseña solo números (si es tu requisito)
         ]
       ]
     });
@@ -60,14 +58,38 @@ export class LoginPage {
 
   async onLogin() {
     const username = this.loginForm.get('username')?.value;
-    const password: number = this.loginForm.get('password')?.value;
-
-    if (this.loginForm.valid && await this.userService.loginEstudiante(username, password)) {
-      // -----     Navegar a Home y pasamos los parametros
-      this.router.navigate(['/estudiante/home']);
+    const password = this.loginForm.get('password')?.value;
+  
+    // Validar que el correo termine en @duocuc.cl
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@duocuc\.cl$/;
+  
+    if (!emailRegex.test(username)) {
+      alert('El correo debe terminar en @duocuc.cl.');
+      return;
     }
-
-  } // Final onLogin
+  
+    if (this.loginForm.valid) {
+      try {
+        // Buscar el usuario en el almacenamiento
+        const user = await this.storageService.getUserByEmailAndPassword(username, password);
+  
+        if (user) {
+          // Inicio de sesión exitoso
+          alert('¡Inicio de sesión exitoso! Bienvenido estudiante.');
+          this.router.navigate(['/estudiante/home'], { queryParams: { username } });
+        } else {
+          // Credenciales incorrectas
+          alert('Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.');
+        }
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        alert('Ocurrió un error. Inténtalo más tarde.');
+      }
+    } else {
+      alert('Por favor, completa los campos correctamente.');
+    }
+  }
+  
 
   login() {
     this.router.navigate(['/asistencia/leer-qr']);

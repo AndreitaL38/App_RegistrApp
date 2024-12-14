@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { StorageService } from 'src/app/api/storage.service';
 import { Router } from '@angular/router';
 import { Animation, AnimationController, IonicModule } from '@ionic/angular';
 
@@ -31,44 +31,68 @@ export class LoginPage {
   constructor(private fb: FormBuilder,
     private router: Router,
     private animationCtrl: AnimationController,
-    private userService: UserService) {
+    private userService: UserService,
+    private storageService: StorageService) {
     addIcons({ person, lockClosed });
 
-    this.loginForm = this.fb.group({
+this.loginForm = this.fb.group({
+  username: [
+    '',
+    [
+      Validators.required,
+      Validators.email, // Validador para correos electrónicos válidos
+    ]
+  ],
 
-      username: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(8),
-          Validators.pattern('^[a-zA-Z0-9]*$')
-        ]
-      ],
+  password: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(6), // Ajusta la longitud si es necesario
+      Validators.pattern('^[0-9]*$') // Contraseña solo números (si es tu requisito)
+    ]
+  ]
+});
 
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4),
-          Validators.pattern('^[0-9]*$')
-        ]
-      ]
-    });
 
   }
 
   async onLogin() {
     const username = this.loginForm.get('username')?.value;
-    const password: number = this.loginForm.get('password')?.value;
-
-    if (this.loginForm.valid && await this.userService.loginDocente(username, password)) {
-      // -----     Navegar a Home y pasamos los parametros
-      this.router.navigate(['/docente/home'], { queryParams: { username, password } });
+    const password = this.loginForm.get('password')?.value;
+  
+    // Validar que el correo termine en @profesorduoc.cl
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@profesorduoc\.cl$/;
+  
+    if (!emailRegex.test(username)) {
+      alert('El correo debe terminar en @profesorduoc.cl.');
+      return;
     }
-
-  } // Final onLogin
+  
+    if (this.loginForm.valid) {
+      try {
+        // Buscar el usuario en el StorageService
+        const user = await this.storageService.getUserByEmailAndPassword(username, password);
+  
+        if (user) {
+          // Credenciales válidas, navegar a la página de inicio del docente
+          alert('¡Inicio de sesión exitoso!');
+          this.router.navigate(['/docente/home'], { queryParams: { username, password } });
+        } else {
+          // Usuario no encontrado o credenciales incorrectas
+          alert('Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.');
+        }
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        alert('Ocurrió un error al iniciar sesión.');
+      }
+    } else {
+      alert('Por favor, completa todos los campos correctamente.');
+    }
+  }
+  
+  
 
   login() {
     this.router.navigate(['/asistencia/generar-qr']);
